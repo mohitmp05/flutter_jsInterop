@@ -17,9 +17,11 @@ const FlutterView = memo(
     onClicksChange,
     onColorChange,
     onTextChange,
+    onSessionExpiredChange,
     text,
     color,
     clicks,
+    sessionExpired,
   }) => {
     const flutterState = useRef(null);
     const ref = useRef(null);
@@ -27,13 +29,16 @@ const FlutterView = memo(
     const onFlutterAppLoaded = (state) => {
       flutterState.current = state;
       // listen to state changes
+
       state.onClicksChanged(onClicksChange);
       state.onTextChanged(onTextChange);
       state.onColorChanged(onColorChange);
+      state.onSessionExpiredChanged(onSessionExpiredChange);
       // set initial values
       state.setText(text);
       state.setColor(color);
       state.setClicks(clicks);
+      state.setSessionExpired(sessionExpired);
     };
 
     useEffect(() => {
@@ -86,6 +91,9 @@ const FlutterView = memo(
     useEffect(() => {
       flutterState.current?.setClicks(clicks);
     }, [clicks]);
+    useEffect(() => {
+      flutterState.current?.setSessionExpired(sessionExpired);
+    }, [sessionExpired]);
 
     return (
       <div ref={ref} style={divStyle}>

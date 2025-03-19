@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, memo } from "react";
 import FlutterView from "./FlutterView";
 import FlutterFlowLogo from "./flutterflow_logo.png";
 import {
@@ -17,7 +17,7 @@ import {
   FormControl,
   InputLabel,
   List,
-  Select
+  Select,
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -83,6 +83,7 @@ function App() {
   const [color, setColor] = React.useState("blue");
   const [clicks, setClicks] = React.useState(0);
   const [text, setText] = React.useState("");
+  const [sessionExpired, setSessionExpired] = React.useState(false);
 
   const handleDrawer = () => {
     setDrawerOpened(!drawerOpened);
@@ -111,6 +112,10 @@ function App() {
   const handleTextChange = (event) => {
     const text = event.target.value || "";
     setText(text);
+  };
+
+  const handleSessionExpiredChange = (expired) => {
+    setSessionExpired(expired);
   };
 
   const openInNewTab = (url) => {
@@ -187,21 +192,50 @@ function App() {
         }}
       >
         <DrawerHeader />
-        <Box sx={{ overflow: 'auto', padding: theme.spacing(1), }}>
+        <Box sx={{ overflow: "auto", padding: theme.spacing(1) }}>
           <List>
             <Box mt={4}>
-              <Typography variant="h5" component="h2">Effects</Typography>
-              <Box mt={4} sx={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap', gap: '5px' }}>
-                <EffectButton toggleClassName={toggleClassName} title="Shadow"/>
-                <EffectButton toggleClassName={toggleClassName} title="Mirror"/>
-                <EffectButton toggleClassName={toggleClassName} title="Resize"/>
-                <EffectButton toggleClassName={toggleClassName} title="Spin"/>
+              <Typography variant="h5" component="h2">
+                Session Status
+              </Typography>
+              <Typography variant="body1">
+                {sessionExpired ? "Session Expired ❌" : "Session Active ✅"}
+              </Typography>
+            </Box>
+            <Box mt={4}>
+              <Typography variant="h5" component="h2">
+                Effects
+              </Typography>
+              <Box
+                mt={4}
+                sx={{
+                  display: "flex",
+                  flexGrow: 1,
+                  flexWrap: "wrap",
+                  gap: "5px",
+                }}
+              >
+                <EffectButton
+                  toggleClassName={toggleClassName}
+                  title="Shadow"
+                />
+                <EffectButton
+                  toggleClassName={toggleClassName}
+                  title="Mirror"
+                />
+                <EffectButton
+                  toggleClassName={toggleClassName}
+                  title="Resize"
+                />
+                <EffectButton toggleClassName={toggleClassName} title="Spin" />
               </Box>
             </Box>
             <Box mt={4}>
-              <Typography variant="h5" component="h2">JS Interop</Typography>
-              </Box>
-              <Box mt={4}>
+              <Typography variant="h5" component="h2">
+                JS Interop
+              </Typography>
+            </Box>
+            <Box mt={4}>
               <FormControl fullWidth>
                 <InputLabel id="select-label">Color</InputLabel>
                 <Select
@@ -214,26 +248,26 @@ function App() {
                   <MenuItem value="red">Red</MenuItem>
                   <MenuItem value="green">Green</MenuItem>
                 </Select>
-                  <TextField
-                    label="Text"
-                    type="text"
-                    value={text}
-                    onChange={handleTextChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    margin="dense"
-                  />
-                  <TextField
-                    label="Clicks"
-                    type="number"
-                    value={clicks}
-                    onChange={handleClicksChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    margin="dense"
-                  />
+                <TextField
+                  label="Text"
+                  type="text"
+                  value={text}
+                  onChange={handleTextChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  margin="dense"
+                />
+                <TextField
+                  label="Clicks"
+                  type="number"
+                  value={clicks}
+                  onChange={handleClicksChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  margin="dense"
+                />
               </FormControl>
             </Box>
           </List>
@@ -247,9 +281,11 @@ function App() {
             onClicksChange={setClicks}
             onColorChange={setColor}
             onTextChange={setText}
+            onSessionExpiredChange={handleSessionExpiredChange}
             text={text}
             clicks={clicks}
             color={color}
+            sessionExpired={sessionExpired}
           />
         </FlutterAppWrapper>
       </Main>
