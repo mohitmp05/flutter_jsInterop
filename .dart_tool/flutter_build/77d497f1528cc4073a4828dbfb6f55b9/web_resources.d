@@ -1,0 +1,1 @@
+ build\\web\\favicon.png build\\web\\icons\\Icon-192.png build\\web\\icons\\Icon-512.png:  D:\\Projects\\angular\\flutter\\web\\favicon.png D:\\Projects\\angular\\flutter\\web\\icons\\Icon-192.png D:\\Projects\\angular\\flutter\\web\\icons\\Icon-512.png D:\\Projects\\angular\\flutter\\web\\index.html
